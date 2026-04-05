@@ -31,14 +31,16 @@ repositories {
 }
 
 sourcesJar {
+    def modName = project.property('mod_name')
     from(rootProject.file('LICENSE')) {
-        rename { "${it}_${mod_name}" }
+        rename { "${it}_${modName}" }
     }
 }
 
 jar {
+    def modName = project.property('mod_name')
     from(rootProject.file('LICENSE')) {
-        rename { "${it}_${mod_name}" }
+        rename { "${it}_${modName}" }
     }
 
     manifest {
@@ -73,7 +75,8 @@ processResources {
             'java_version'                 : java_version,
             'issues_url'                   : issues_url,
             'mod_source'                   : mod_source,
-            'mod_homepage'                 : mod_homepage
+            'mod_homepage'                 : mod_homepage,
+            forgeconfigapiport_version     : forgeconfigapiport_version
     ]
 
     var jsonExpandProps = expandProps.collectEntries {

@@ -79,7 +79,7 @@ dependencies {
     include "com.vladsch.flexmark:flexmark-util-sequence:${flexmark_version}"
     include "com.vladsch.flexmark:flexmark-util-visitor:${flexmark_version}"*/
 
-    jarJar files(':ModernUI-Fonts-5.0')
+    jarJar files('../libs/ModernUI-Fonts-5.0.jar')
 }
 
 //
