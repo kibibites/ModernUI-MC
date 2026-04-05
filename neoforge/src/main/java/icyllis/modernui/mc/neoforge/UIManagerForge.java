@@ -31,7 +31,7 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.renderer.texture.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.util.ObfuscationReflectionHelper;
@@ -81,7 +81,7 @@ public final class UIManagerForge extends UIManager implements LifecycleOwner {
             ObfuscationReflectionHelper.findField(AbstractTexture.class, "id");*/
 
     // captured tooltip style from MixinGuiGraphics
-    public static ResourceLocation sTooltipStyle;
+    public static Identifier sTooltipStyle;
 
     private UIManagerForge() {
         super();
@@ -166,9 +166,9 @@ public final class UIManagerForge extends UIManager implements LifecycleOwner {
     @Override
     public void dump(@NotNull PrintWriter pw, boolean fragments) {
         super.dump(pw, fragments);
-        Map<ResourceLocation, AbstractTexture> textureMap = null;
+        Map<Identifier, AbstractTexture> textureMap = null;
         try {
-            textureMap = (Map<ResourceLocation, AbstractTexture>) BY_PATH.get(minecraft.getTextureManager());
+            textureMap = (Map<Identifier, AbstractTexture>) BY_PATH.get(minecraft.getTextureManager());
         } catch (Exception ignored) {
         }
         if (textureMap != null) {
@@ -204,8 +204,8 @@ public final class UIManagerForge extends UIManager implements LifecycleOwner {
                 }
                 if (texture instanceof TextureAtlas textureAtlas) {
                     try {
-                        Map<ResourceLocation, TextureAtlasSprite> textures =
-                                (Map<ResourceLocation, TextureAtlasSprite>) TEXTURES_BY_NAME.get(textureAtlas);
+                        Map<Identifier, TextureAtlasSprite> textures =
+                                (Map<Identifier, TextureAtlasSprite>) TEXTURES_BY_NAME.get(textureAtlas);
                         for (var sprite : textures.values()) {
                             for (var image : sprite.contents().byMipLevel) {
                                 if (image != null && image.getPointer() != 0) {

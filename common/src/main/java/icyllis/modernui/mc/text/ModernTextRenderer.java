@@ -67,11 +67,11 @@ public final class ModernTextRenderer {
 
     //private ModernStringSplitter mModernSplitter;
 
-    /*private ModernFontRenderer(Function<ResourceLocation, FontSet> fonts) {
+    /*private ModernFontRenderer(Function<Identifier, FontSet> fonts) {
         super(fonts);
     }
 
-    private static Font create(Function<ResourceLocation, FontSet> fonts) {
+    private static Font create(Function<Identifier, FontSet> fonts) {
         RenderSystem.assertThread(RenderSystem::isOnRenderThread);
         if (instance == null) {
             ModernFontRenderer i = new ModernFontRenderer(fonts);
@@ -325,7 +325,7 @@ public final class ModernTextRenderer {
             instance = new ModernFontRenderer();
             Minecraft minecraft = Minecraft.getInstance();
 
-            Function<ResourceLocation, Font> r = ObfuscationReflectionHelper.getPrivateValue(FontRenderer.class,
+            Function<Identifier, Font> r = ObfuscationReflectionHelper.getPrivateValue(FontRenderer.class,
                     minecraft.fontRenderer, "field_211127_e");
 
             ObfuscationReflectionHelper.setPrivateValue(FontRenderer.class,

@@ -20,7 +20,7 @@ package icyllis.modernui.mc.text.mixin;
 
 import icyllis.modernui.mc.text.ModernTextRenderer;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.contextualbar.ContextualBarRenderer;
 import net.minecraft.network.chat.Component;
 import org.joml.Matrix3x2fStack;
@@ -33,10 +33,10 @@ public interface MixinContextualBar {
 
     @Redirect(
             method = "renderExperienceLevel",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;drawString" +
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;drawString" +
                     "(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)V")
     )
-    private static void drawExperience(GuiGraphics gr, Font font, Component text, int x, int y, int color,
+    private static void drawExperience(GuiGraphicsExtractor gr, Font font, Component text, int x, int y, int color,
                                        boolean dropShadow) {
         if (!ModernTextRenderer.sTweakExperienceText) {
             gr.drawString(font, text, x, y, color, dropShadow);

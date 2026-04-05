@@ -35,7 +35,7 @@ import net.fabricmc.api.*;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.resource.*;
@@ -45,7 +45,7 @@ import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.resources.language.LanguageManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.Mth;
@@ -90,11 +90,11 @@ public class ModernUIFabricClient extends ModernUIClient implements ClientModIni
         START_RENDER_TICK.register(EventHandler.Client::onRenderTick);
         END_RENDER_TICK.register(EventHandler.Client::onRenderTick);
 
-        KeyBindingHelper.registerKeyBinding(UIManagerFabric.OPEN_CENTER_KEY);
+        KeyMappingHelper.registerKeyMapping(UIManagerFabric.OPEN_CENTER_KEY);
 
         ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new SimpleSynchronousResourceReloadListener() {
             @Override
-            public ResourceLocation getFabricId() {
+            public Identifier getFabricId() {
                 return ModernUIMod.location("client");
             }
 
@@ -166,7 +166,7 @@ public class ModernUIFabricClient extends ModernUIClient implements ClientModIni
                         Minecraft minecraft = Minecraft.getInstance();
                         if ((int) minecraft.getWindow().getGuiScale() !=
                                 minecraft.getWindow().calculateScale(value, false)) {
-                            minecraft.resizeDisplay();
+                            minecraft.resizeGui();
                         }
                     });
                 });
@@ -203,7 +203,7 @@ public class ModernUIFabricClient extends ModernUIClient implements ClientModIni
             // see MixinFontManager in another case
             ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new IdentifiableResourceReloadListener() {
                 @Override
-                public ResourceLocation getFabricId() {
+                public Identifier getFabricId() {
                     return ModernUIMod.location("font");
                 }
 

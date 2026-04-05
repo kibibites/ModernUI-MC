@@ -22,7 +22,7 @@ import com.mojang.blaze3d.resource.CrossFrameResourcePool;
 import icyllis.modernui.mc.BlurHandler;
 import icyllis.modernui.mc.UIManager;
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.render.state.GuiRenderState;
+import net.minecraft.client.renderer.state.gui.GuiRenderState;
 import net.minecraft.client.renderer.GameRenderer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

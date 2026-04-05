@@ -26,12 +26,7 @@ import com.mojang.blaze3d.textures.FilterMode;
 import com.mojang.blaze3d.textures.GpuTexture;
 import com.mojang.blaze3d.textures.GpuTextureView;
 import com.mojang.blaze3d.vertex.*;
-import icyllis.arc3d.core.RefCnt;
-import icyllis.arc3d.core.SharedPtr;
-import icyllis.arc3d.engine.ImmediateContext;
-import icyllis.arc3d.engine.SamplerDesc;
 import icyllis.arc3d.opengl.GLCaps;
-import icyllis.arc3d.opengl.GLSampler;
 import icyllis.modernui.core.Core;
 import icyllis.modernui.mc.ModernUIMod;
 import icyllis.modernui.mc.MuiModApi;
@@ -40,12 +35,12 @@ import icyllis.modernui.mc.text.mixin.AccessGpuTexture;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.resources.Identifier;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
-import java.util.Objects;
 
 import static icyllis.modernui.mc.ModernUIMod.LOGGER;
 import static icyllis.modernui.mc.text.TextLayoutEngine.MARKER;
@@ -69,7 +64,7 @@ public abstract class TextRenderType extends RenderType {
 
     public static final RenderPipeline PIPELINE_NORMAL = RenderPipeline.builder()
             .withLocation(ModernUIMod.location("pipeline/modern_text_normal"))
-            .withVertexShader(ResourceLocation.withDefaultNamespace("core/rendertype_text_intensity"))
+            .withVertexShader(Identifier.withDefaultNamespace("core/rendertype_text_intensity"))
             .withFragmentShader(ModernUIMod.location("core/rendertype_modern_text_normal"))
             .withUniform("Fog", UniformType.UNIFORM_BUFFER)
             .withUniform("DynamicTransforms", UniformType.UNIFORM_BUFFER)
@@ -81,7 +76,7 @@ public abstract class TextRenderType extends RenderType {
             .build();
 
     public static final RenderPipeline.Snippet PIPELINE_SDF_SNIPPET = RenderPipeline.builder()
-            .withVertexShader(ResourceLocation.withDefaultNamespace("core/rendertype_text_intensity"))
+            .withVertexShader(Identifier.withDefaultNamespace("core/rendertype_text_intensity"))
             .withUniform("Fog", UniformType.UNIFORM_BUFFER)
             .withUniform("DynamicTransforms", UniformType.UNIFORM_BUFFER)
             .withUniform("Projection", UniformType.UNIFORM_BUFFER)

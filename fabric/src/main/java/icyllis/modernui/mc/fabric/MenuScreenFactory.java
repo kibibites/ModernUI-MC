@@ -20,11 +20,10 @@ package icyllis.modernui.mc.fabric;
 
 import icyllis.modernui.fragment.Fragment;
 import icyllis.modernui.mc.*;
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
+import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
+import net.fabricmc.fabric.api.menu.v1.ExtendedMenuType;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
@@ -39,7 +38,7 @@ import java.util.Objects;
  * The factory interface is used to create menu screens with a main {@link Fragment}.
  * The factory is invoked when the server requires the client to open an application
  * screen to interact with a container menu. The menu instance is created on the
- * client with {@link ExtendedScreenHandlerType.ExtendedFactory#create(int, Inventory, Object)},
+ * client with {@link ExtendedMenuType.ExtendedFactory#create(int, Inventory, Object)},
  * which contains custom network data from server. For example:
  * <pre>{@code
  * @Override
@@ -49,7 +48,7 @@ import java.util.Objects;
  * }</pre>
  *
  * @see ServerPlayer#openMenu(MenuProvider)
- * @see ExtendedScreenHandlerFactory
+ * @see ExtendedMenuProvider
  */
 @FunctionalInterface
 public interface MenuScreenFactory<T extends AbstractContainerMenu> extends

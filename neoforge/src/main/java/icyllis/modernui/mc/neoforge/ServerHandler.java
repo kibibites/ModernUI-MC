@@ -20,7 +20,7 @@ package icyllis.modernui.mc.neoforge;
 
 import icyllis.modernui.mc.ModernUIMod;
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.network.chat.Component;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;

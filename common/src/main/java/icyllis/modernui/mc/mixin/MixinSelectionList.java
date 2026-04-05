@@ -21,7 +21,7 @@ package icyllis.modernui.mc.mixin;
 import icyllis.modernui.mc.MuiModApi;
 import icyllis.modernui.mc.ScrollController;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractContainerWidget;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.network.chat.Component;
@@ -72,7 +72,7 @@ public abstract class MixinSelectionList extends AbstractContainerWidget impleme
     }
 
     @Inject(method = "renderWidget", at = @At("HEAD"))
-    private void preRender(GuiGraphics gr, int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
+    private void preRender(GuiGraphicsExtractor gr, int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
         if (modernUI_MC$scrollController == null) {
             modernUI_MC$scrollController = new ScrollController(this);
             modernUI_MC$skipAnimationTo(scrollAmount());
@@ -81,31 +81,31 @@ public abstract class MixinSelectionList extends AbstractContainerWidget impleme
     }
 
     @Inject(method = "renderWidget", at = @At(value = "INVOKE", shift = At.Shift.BEFORE, target = "Lnet/minecraft/client" +
-            "/gui/components/AbstractSelectionList;renderHeader(Lnet/minecraft/client/gui/GuiGraphics;II)V"))
-    private void preRenderHeader(@Nonnull GuiGraphics gr, int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
+            "/gui/components/AbstractSelectionList;renderHeader(Lnet/minecraft/client/gui/GuiGraphicsExtractor;II)V"))
+    private void preRenderHeader(@Nonnull GuiGraphicsExtractor gr, int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
         gr.pose().pushMatrix();
         gr.pose().translate(0,
                 ((int) (((int) scrollAmount() - scrollAmount()) * (float) minecraft.getWindow().getGuiScale())) / (float) minecraft.getWindow().getGuiScale());
     }
 
     @Inject(method = "renderWidget", at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/client" +
-            "/gui/components/AbstractSelectionList;renderHeader(Lnet/minecraft/client/gui/GuiGraphics;II)V"))
-    private void postRenderHeader(@Nonnull GuiGraphics gr, int mouseX, int mouseY, float partialTicks,
+            "/gui/components/AbstractSelectionList;renderHeader(Lnet/minecraft/client/gui/GuiGraphicsExtractor;II)V"))
+    private void postRenderHeader(@Nonnull GuiGraphicsExtractor gr, int mouseX, int mouseY, float partialTicks,
                                   CallbackInfo ci) {
         gr.pose().popMatrix();
     }
 
     @Inject(method = "renderWidget", at = @At(value = "INVOKE", shift = At.Shift.BEFORE, target = "Lnet/minecraft/client" +
-            "/gui/components/AbstractSelectionList;renderListItems(Lnet/minecraft/client/gui/GuiGraphics;IIF)V"))
-    private void preRenderList(@Nonnull GuiGraphics gr, int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
+            "/gui/components/AbstractSelectionList;renderListItems(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IIF)V"))
+    private void preRenderList(@Nonnull GuiGraphicsExtractor gr, int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
         gr.pose().pushMatrix();
         gr.pose().translate(0,
                 ((int) (((int) scrollAmount() - scrollAmount()) * (float) minecraft.getWindow().getGuiScale())) / (float) minecraft.getWindow().getGuiScale());
     }
 
     @Inject(method = "renderWidget", at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/client" +
-            "/gui/components/AbstractSelectionList;renderListItems(Lnet/minecraft/client/gui/GuiGraphics;IIF)V"))
-    private void postRenderList(@Nonnull GuiGraphics gr, int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
+            "/gui/components/AbstractSelectionList;renderListItems(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IIF)V"))
+    private void postRenderList(@Nonnull GuiGraphicsExtractor gr, int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
         gr.pose().popMatrix();
     }
 

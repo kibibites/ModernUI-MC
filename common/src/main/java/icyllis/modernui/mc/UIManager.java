@@ -54,10 +54,10 @@ import net.minecraft.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.render.TextureSetup;
-import net.minecraft.client.gui.render.state.BlitRenderState;
-import net.minecraft.client.gui.render.state.GuiRenderState;
+import net.minecraft.client.renderer.state.gui.BlitRenderState;
+import net.minecraft.client.renderer.state.gui.GuiRenderState;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.tooltip.*;
 import net.minecraft.client.player.LocalPlayer;
@@ -65,7 +65,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -659,9 +659,9 @@ public abstract class UIManager implements LifecycleOwner {
             final String sound = sDingSound;
             final float volume = sDingVolume;
             if (volume > 0) {
-                ResourceLocation soundEvent = null;
+                Identifier soundEvent = null;
                 if (sound != null && !sound.isEmpty()) {
-                    soundEvent = ResourceLocation.tryParse(sound);
+                    soundEvent = Identifier.tryParse(sound);
                     if (soundEvent == null) {
                         LOGGER.warn(MARKER, "The specified ding sound \"{}\" has wrong format", sound);
                     } else if (minecraft.getSoundManager().getSoundEvent(soundEvent) == null) {
@@ -759,7 +759,7 @@ public abstract class UIManager implements LifecycleOwner {
     protected void changeRadialBlur() {
         if (minecraft.gameRenderer.currentPostEffect() == null) {
             LOGGER.info(MARKER, "Load post-processing effect");
-            final ResourceLocation effect;
+            final Identifier effect;
             if (InputConstants.isKeyDown(mWindow.getWindow(), GLFW_KEY_RIGHT_SHIFT)) {
                 effect = ModernUIMod.location("grayscale");
             } else {
@@ -802,7 +802,7 @@ public abstract class UIManager implements LifecycleOwner {
         if (menu != null) {
             pw.println(menu.getClass().getSimpleName());
             try {
-                ResourceLocation name = BuiltInRegistries.MENU.getKey(menu.getType());
+                Identifier name = BuiltInRegistries.MENU.getKey(menu.getType());
                 pw.print("  Registry Name: ");
                 pw.println(name);
             } catch (Exception ignored) {
@@ -870,7 +870,7 @@ public abstract class UIManager implements LifecycleOwner {
     }
 
     @RenderThread
-    public void render(@Nonnull GuiGraphics gr, int mouseX, int mouseY, float deltaTick) {
+    public void render(@Nonnull GuiGraphicsExtractor gr, int mouseX, int mouseY, float deltaTick) {
         if (mNoRender) {
             /*if (mScreen != null) {
                 String error = Language.getInstance().getOrDefault("error.modernui.gl_caps");
@@ -1025,12 +1025,12 @@ public abstract class UIManager implements LifecycleOwner {
     }
 
     public void drawExtTooltip(ItemStack itemStack,
-                               GuiGraphics graphics,
+                               GuiGraphicsExtractor graphics,
                                List<ClientTooltipComponent> components,
                                int x, int y, Font font,
                                int screenWidth, int screenHeight,
                                ClientTooltipPositioner positioner,
-                               ResourceLocation tooltipStyle) {
+                               Identifier tooltipStyle) {
         // screen coordinates to pixels for rendering
         final Window window = mWindow;
         final MouseHandler mouseHandler = minecraft.mouseHandler;
@@ -1076,7 +1076,7 @@ public abstract class UIManager implements LifecycleOwner {
         if (minecraft.isRunning() && mRunning &&
                 mScreen == null && minecraft.getOverlay() == null) {
             // Render the UI above everything
-            render(new GuiGraphics(minecraft, guiRenderState), 0, 0, 0);
+            render(new GuiGraphicsExtractor(minecraft, guiRenderState), 0, 0, 0);
         }
     }
 

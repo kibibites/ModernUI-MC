@@ -270,7 +270,7 @@ final class Registration {
                         Minecraft minecraft = Minecraft.getInstance();
                         if ((int) minecraft.getWindow().getGuiScale() !=
                                 minecraft.getWindow().calculateScale(value, false)) {
-                            minecraft.resizeDisplay();
+                            minecraft.resizeGui();
                         }
                     });
                 });
@@ -307,7 +307,7 @@ final class Registration {
                             (options, aDouble) -> {
                                 if (options.guiScale != aDouble.intValue()) {
                                     options.guiScale = aDouble.intValue();
-                                    Minecraft.getInstance().resizeDisplay();
+                                    Minecraft.getInstance().resizeGui();
                                 }
                             },
                             (options, progressOption) -> options.guiScale == 0 ?

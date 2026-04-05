@@ -32,7 +32,7 @@ import icyllis.modernui.core.Core;
 import icyllis.modernui.mc.MuiModApi;
 import icyllis.modernui.mc.b3d.GlTexture_Wrapped;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 

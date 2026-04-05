@@ -19,16 +19,16 @@
 package icyllis.modernui.mc.text;
 
 import com.mojang.blaze3d.font.GlyphInfo;
-import com.mojang.blaze3d.font.SheetGlyphInfo;
+import com.mojang.blaze3d.font.GlyphBitmap;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.textures.GpuTextureView;
 import icyllis.modernui.graphics.text.*;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import net.minecraft.client.gui.font.*;
 import net.minecraft.client.gui.font.glyphs.*;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Unmodifiable;
 
 import javax.annotation.Nonnull;
@@ -71,7 +71,7 @@ public class StandardFontSet extends FontSet {
     private final FontPaint mStandardPaint = new FontPaint();
 
     public StandardFontSet(@Nonnull TextureManager texMgr,
-                           @Nonnull ResourceLocation fontName) {
+                           @Nonnull Identifier fontName) {
         super(texMgr, fontName); // <- unused
 
         mStandardPaint.setFontStyle(FontPaint.NORMAL);
@@ -265,15 +265,15 @@ public class StandardFontSet extends FontSet {
 
         @Nonnull
         @Override
-        public BakedGlyph bake(@Nonnull Function<SheetGlyphInfo, BakedGlyph> function) {
+        public BakedGlyph bake(@Nonnull Function<GlyphBitmap, BakedGlyph> function) {
             return EmptyGlyph.INSTANCE;
         }
     }
 
-    public static class StandardBakedGlyph extends BakedGlyph {
+    public static class StandardBakedGlyph implements BakedGlyph {
 
         private static final GlyphRenderTypes EMPTY_TYPES =
-                GlyphRenderTypes.createForColorTexture(ResourceLocation.withDefaultNamespace(""));
+                GlyphRenderTypes.createForColorTexture(Identifier.withDefaultNamespace(""));
 
         // null for TTF fonts, non-null for bitmap fonts
         @Nullable

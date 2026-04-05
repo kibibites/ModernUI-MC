@@ -22,9 +22,9 @@ import icyllis.modernui.mc.GradientRectangleRenderState;
 import icyllis.modernui.mc.MuiModApi;
 import icyllis.modernui.mc.text.*;
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
@@ -138,7 +138,7 @@ public abstract class MixinEditBox extends AbstractWidget {
             at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/components/EditBox;isEditable:Z",
                     opcode = Opcodes.GETFIELD),
             cancellable = true)
-    public void onRenderWidget(@Nonnull GuiGraphics gr, int mouseX, int mouseY, float deltaTicks,
+    public void onRenderWidget(@Nonnull GuiGraphicsExtractor gr, int mouseX, int mouseY, float deltaTicks,
                                CallbackInfo ci) {
         final TextLayoutEngine engine = TextLayoutEngine.getInstance();
 

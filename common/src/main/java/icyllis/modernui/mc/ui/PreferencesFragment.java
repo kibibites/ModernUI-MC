@@ -61,7 +61,7 @@ import icyllis.modernui.view.OneShotPreDrawListener;
 import icyllis.modernui.view.View;
 import icyllis.modernui.view.ViewGroup;
 import icyllis.modernui.widget.*;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
 
@@ -1021,7 +1021,7 @@ public class PreferencesFragment extends Fragment {
                     // ensure it's applied
                     if ((int) minecraft.getWindow().getGuiScale() !=
                             minecraft.getWindow().calculateScale(newValue, false)) {
-                        minecraft.resizeDisplay();
+                        minecraft.resizeGui();
                     }
                     minecraft.options.save();
                 });

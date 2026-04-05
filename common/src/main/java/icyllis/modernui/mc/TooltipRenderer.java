@@ -26,14 +26,14 @@ import icyllis.modernui.mc.mixin.AccessClientTextTooltip;
 import icyllis.modernui.mc.text.CharacterStyle;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.gui.screens.inventory.tooltip.*;
 import net.minecraft.client.renderer.*;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.*;
 import net.minecraft.world.item.*;
 import org.jetbrains.annotations.ApiStatus;
@@ -525,11 +525,11 @@ public final class TooltipRenderer implements ScrollController.IListener {
         return uniform.set(r / 255f, g / 255f, b / 255f, a / 255f);
     }
 
-    public void drawTooltip(@Nonnull ItemStack itemStack, @Nonnull GuiGraphics gr,
+    public void drawTooltip(@Nonnull ItemStack itemStack, @Nonnull GuiGraphicsExtractor gr,
                             @Nonnull List<ClientTooltipComponent> list, int mouseX, int mouseY,
                             @Nonnull Font font, int screenWidth, int screenHeight,
                             float partialX, float partialY, @Nullable ClientTooltipPositioner positioner,
-                            @Nullable ResourceLocation tooltipStyle) {
+                            @Nullable Identifier tooltipStyle) {
         mDraw = true;
 
         if (itemStack != mLastSeenItem || mNumDrawsInThisFrame > 0) {
@@ -733,7 +733,7 @@ public final class TooltipRenderer implements ScrollController.IListener {
         gr.pose().popMatrix();
     }
 
-    private void drawRoundedBackground(@Nonnull GuiGraphics gr, Matrix3x2f pose,
+    private void drawRoundedBackground(@Nonnull GuiGraphicsExtractor gr, Matrix3x2f pose,
                                        ScreenRectangle scissor,
                                        float tooltipX, float tooltipY,
                                        int tooltipWidth, int tooltipHeight,
@@ -810,7 +810,7 @@ public final class TooltipRenderer implements ScrollController.IListener {
         }
     }
 
-    private void drawVanillaBackground(@Nonnull GuiGraphics gr, Matrix3x2f pose,
+    private void drawVanillaBackground(@Nonnull GuiGraphicsExtractor gr, Matrix3x2f pose,
                                        ScreenRectangle scissor,
                                        float tooltipX, float tooltipY,
                                        int tooltipWidth, int tooltipHeight,
@@ -865,7 +865,7 @@ public final class TooltipRenderer implements ScrollController.IListener {
                 chooseBorderColor(3), chooseBorderColor(3));
     }
 
-    private static void fillGrad(GuiGraphics gr, Matrix3x2f pose, ScreenRectangle scissor,
+    private static void fillGrad(GuiGraphicsExtractor gr, Matrix3x2f pose, ScreenRectangle scissor,
                                  float left, float top, float right, float bottom,
                                  int colorUL, int colorUR, int colorLR, int colorLL) {
         MuiModApi.get().submitGuiElementRenderState(gr,

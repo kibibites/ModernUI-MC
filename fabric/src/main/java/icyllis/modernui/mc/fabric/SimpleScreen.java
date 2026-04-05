@@ -21,7 +21,7 @@ package icyllis.modernui.mc.fabric;
 import icyllis.modernui.fragment.Fragment;
 import icyllis.modernui.mc.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -77,7 +77,7 @@ final class SimpleScreen extends Screen implements MuiScreen {
     }
 
     @Override
-    public void renderBackground(@Nonnull GuiGraphics gr, int mouseX, int mouseY, float deltaTick) {
+    public void renderBackground(@Nonnull GuiGraphicsExtractor gr, int mouseX, int mouseY, float deltaTick) {
         ScreenCallback callback = getCallback();
         if (callback == null || callback.hasDefaultBackground()) {
             if (minecraft != null && minecraft.level == null) {
@@ -89,7 +89,7 @@ final class SimpleScreen extends Screen implements MuiScreen {
     }
 
     @Override
-    public void render(@Nonnull GuiGraphics gr, int mouseX, int mouseY, float deltaTick) {
+    public void render(@Nonnull GuiGraphicsExtractor gr, int mouseX, int mouseY, float deltaTick) {
         mHost.render(gr, mouseX, mouseY, deltaTick);
     }
 

@@ -22,8 +22,8 @@ import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.TextureSetup;
-import net.minecraft.client.gui.render.state.GuiElementRenderState;
-import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.state.gui.GuiElementRenderState;
+import net.minecraft.util.LightCoordsUtil;
 import org.joml.Matrix3x2f;
 
 import javax.annotation.Nonnull;
@@ -150,19 +150,19 @@ public record TextRunRenderState(
             builder.addVertexWith2DPose(pose, rx + upSkew, ry, z)
                     .setColor(r, g, b, a)
                     .setUv(glyph.u1, glyph.v1)
-                    .setLight(LightTexture.FULL_BRIGHT);
+                    .setLight(LightCoordsUtil.FULL_BRIGHT);
             builder.addVertexWith2DPose(pose, rx + downSkew, ry + h, z)
                     .setColor(r, g, b, a)
                     .setUv(glyph.u1, glyph.v2)
-                    .setLight(LightTexture.FULL_BRIGHT);
+                    .setLight(LightCoordsUtil.FULL_BRIGHT);
             builder.addVertexWith2DPose(pose, rx + w + downSkew, ry + h, z)
                     .setColor(r, g, b, a)
                     .setUv(glyph.u2, glyph.v2)
-                    .setLight(LightTexture.FULL_BRIGHT);
+                    .setLight(LightCoordsUtil.FULL_BRIGHT);
             builder.addVertexWith2DPose(pose, rx + w + upSkew, ry, z)
                     .setColor(r, g, b, a)
                     .setUv(glyph.u2, glyph.v1)
-                    .setLight(LightTexture.FULL_BRIGHT);
+                    .setLight(LightCoordsUtil.FULL_BRIGHT);
         }
     }
 
