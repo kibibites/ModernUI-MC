@@ -1,7 +1,6 @@
 plugins {
     id 'multiloader-loader'
     id 'net.neoforged.moddev'
-    id 'com.gradleup.shadow'
 }
 
 neoForge {
@@ -37,11 +36,9 @@ neoForge {
     }
 }
 
-configurations {
-    shadow
-}
-
 dependencies {
+    jarJar(implementation("org.commonmark:commonmark:${commonmark_version}"))
+
     if (rootProject.file('../ModernUI').exists()) {
         implementation(forgeRuntimeLibrary("icyllis.arc3d:Arc3D"))
         shadow("icyllis.arc3d:Arc3D") {
@@ -57,11 +54,11 @@ dependencies {
         }
     } else {
         implementation("icyllis.modernui:ModernUI-Core:${core_version}")
-        shadow("icyllis.modernui:ModernUI-Core:${core_version}") {
+        jarJar(implementation("icyllis.modernui:ModernUI-Core:${core_version}")) {
             transitive = false
         }
         implementation("icyllis.modernui:ModernUI-Markflow:${core_version}")
-        shadow("icyllis.modernui:ModernUI-Markflow:${core_version}") {
+        jarJar(implementation("icyllis.modernui:ModernUI-Markflow:${core_version}")) {
             transitive = false
         }
     }
@@ -81,41 +78,8 @@ dependencies {
     include "com.vladsch.flexmark:flexmark-util-misc:${flexmark_version}"
     include "com.vladsch.flexmark:flexmark-util-sequence:${flexmark_version}"
     include "com.vladsch.flexmark:flexmark-util-visitor:${flexmark_version}"*/
-    implementation "org.commonmark:commonmark:${commonmark_version}"
 
-    shadow ':ModernUI-Fonts-5.0'
-}
-
-shadowJar {
-    archiveClassifier.set("shadow")
-    configurations = [project.configurations.shadow]
-
-    /*dependencies {
-        exclude 'icu4j-59.1.jar'
-        exclude 'commons-logging-1.2.jar'
-    }
-
-    relocate 'com.google.errorprone.annotations', 'icyllis.annotations'
-    relocate 'org.checkerframe', 'icyllis.checkerframe'
-    relocate 'com.github.benmanes.caffeine', 'icyllis.caffeine'
-    relocate 'com.vladsch.flexmark', 'icyllis.flexmark'
-    relocate 'org.intellij.lang.annotations', 'icyllis.annotations'
-    relocate 'org.jetbrains.annotations', 'icyllis.annotations'
-    relocate 'io.reactivex.rxjava3', 'icyllis.rxjava3'
-    relocate 'org.reactivestreams', 'icyllis.reactivestreams'
-
-    exclude 'META-INF/CHANGES'
-    exclude 'META-INF/DEPENDENCIES'
-    exclude 'META-INF/LICENSE**'
-    exclude 'META-INF/NOTICE**'
-    exclude 'META-INF/README**'
-    exclude 'META-INF/maven/**'*/
-}
-
-jar {
-    dependsOn(shadowJar)
-    archiveFile.set(shadowJar.archiveFile)
-    archiveClassifier.set("universal")
+    jarJar files(':ModernUI-Fonts-5.0')
 }
 
 //
