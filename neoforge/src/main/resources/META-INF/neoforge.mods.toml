@@ -1,20 +1,16 @@
 modLoader="javafml"
-loaderVersion="[2,)"
-issueTrackerURL="https://github.com/BloCamLimb/ModernUI/issues"
+loaderVersion="${neoforge_loader_version_range}"
+issueTrackerURL="${issues_url}"
 logoFile= "modernui_logo.png"
-license="LGPL-3.0-or-later"
+license="${license}"
 
 [[mods]]
-    modId="modernui"
+    modId="${mod_id}"
     version="${version}"
-    displayName="Modern UI"
-    displayURL="https://curseforge.com/minecraft/mc-mods/modern-ui"
-    authors="BloCamLimb"
-    description='''
-    Modern desktop framework from low-level 3D graphics API to high-level view model, for development of 2D/3D rendering software or game engine, with internationalization support and many new technologies.
-    Modern UI is a desktop application framework designed for standalone 2D and 3D rendering software development. It makes use of modern 3D graphical APIs and technologies to provide high real-time rendering performance. For good measure, Modern UI improves and optimizes a set of features used by Android and its own set of internationalization supporting text layout engine meeting Unicode specification.
-    This version is an official version that extends to Minecraft and NeoForge, which combines Modern UI with Minecraft and provides a large number of additional features and modding APIs.
-    '''
+    displayName="${mod_name}"
+    displayURL="${mod_homepage}"
+    authors="${mod_author}"
+    description='''${description}'''
 
 [[mixins]]
     config="mixins.modernui-neoforge.json"
@@ -22,18 +18,21 @@ license="LGPL-3.0-or-later"
 [[mixins]]
     config="mixins.modernui-textmc.json"
 
-[[dependencies.modernui]]
+[[dependencies.${mod_id}]]
     modId="neoforge"
     type="required"
-    versionRange="[21.6.20-beta,)"
+    versionRange="[${neoforge_version},)"
     ordering="NONE"
     side="BOTH"
-[[dependencies.modernui]]
+[[dependencies.${mod_id}]]
     modId="minecraft"
     type="required"
-    versionRange="[1.21.6, 1.21.9)"
+    versionRange="${minecraft_version_range}"
     ordering="NONE"
     side="BOTH"
 [[dependencies.modernui]]
     modId="tipthescales"
+    type="discouraged"
+[[dependencies.modernui]]
+    modId="blur"
     type="discouraged"

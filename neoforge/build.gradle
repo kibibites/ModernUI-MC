@@ -1,51 +1,61 @@
-import net.fabricmc.loom.task.RemapJarTask
-
 plugins {
-    id 'dev.architectury.loom' version '1.11-SNAPSHOT'
-    //id 'com.matthewprenger.cursegradle' version '1.4.0'
-    id 'com.github.johnrengelman.shadow' version '7.0.0'
+    id 'multiloader-loader'
+    id 'net.neoforged.moddev'
+    id 'com.gradleup.shadow'
 }
 
-version = "${minecraft_version}-${mod_version}" as String
+neoForge {
+    version = neoforge_version
+
+    def at = project(':common').file('src/main/resources/META-INF/accesstransformer.cfg')
+    accessTransformers.from(at.absolutePath)
+
+    validateAccessTransformers = true
+
+    runs {
+        configureEach {
+            systemProperty('neoforge.enabledGameTestNamespaces', mod_id)
+            ideName = "NeoForge ${it.name.capitalize()} (${project.path})" // Unify the run config names with fabric
+        }
+        client {
+            client()
+            gameDirectory = this.mkdir(this.file("runs/client"))
+        }
+        data {
+            clientData()
+            gameDirectory = this.mkdir(this.file("runs/data"))
+            // DataGen can be run by - "./gradlew :neoforge:runData" in Terminal.
+            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+        }
+    }
+}
 
 configurations {
     shadow
 }
 
-loom {
-    silentMojangMappingsLicense()
-    runConfigs.each { it.setIdeConfigGenerated(true) } // Uncomment this if run configs not generated
-    addTaskBeforeRun(":${name}:classes")
-}
-
 repositories {
-    maven {
-        // declaring in settings.gradle doesn't work
-        url 'https://maven.neoforged.net/releases/'
-    }
-    maven {
-        url 'https://maven.parchmentmc.org/'
-        content {
-            includeGroup 'org.parchmentmc.data'
-        }
-    }
-    maven { url 'https://modmaven.dev/' }
     maven {
         url 'https://maven.izzel.io/releases/'
     }
-    mavenCentral()
     flatDir {
         dir "${rootProject.projectDir}/libs"
     }
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${minecraft_version}"
-    mappings loom.officialMojangMappings()
-    neoForge "net.neoforged:neoforge:${neoforge_version}"
-
-    implementation project(':common')
-
+//    implementation(project(":common")) {
+//        attributes {
+//            attribute(Attribute.of("io.github.mcgradleconventions.loader", String), "common")
+//        }
+//    }
     if (rootProject.file('../ModernUI').exists()) {
         implementation(forgeRuntimeLibrary("icyllis.arc3d:Arc3D"))
         shadow("icyllis.arc3d:Arc3D") {
@@ -60,11 +70,11 @@ dependencies {
             transitive = false
         }
     } else {
-        implementation(forgeDependencies("icyllis.modernui:ModernUI-Core:${core_version}"))
+        implementation("icyllis.modernui:ModernUI-Core:${core_version}")
         shadow("icyllis.modernui:ModernUI-Core:${core_version}") {
             transitive = false
         }
-        implementation(forgeDependencies("icyllis.modernui:ModernUI-Markflow:${core_version}"))
+        implementation("icyllis.modernui:ModernUI-Markflow:${core_version}")
         shadow("icyllis.modernui:ModernUI-Markflow:${core_version}") {
             transitive = false
         }
@@ -85,13 +95,14 @@ dependencies {
     include "com.vladsch.flexmark:flexmark-util-misc:${flexmark_version}"
     include "com.vladsch.flexmark:flexmark-util-sequence:${flexmark_version}"
     include "com.vladsch.flexmark:flexmark-util-visitor:${flexmark_version}"*/
-    include "org.commonmark:commonmark:${commonmark_version}"
+    implementation "org.commonmark:commonmark:${commonmark_version}"
 
     shadow ':ModernUI-Fonts-5.0'
 }
 
 tasks.withType(JavaCompile).configureEach {
     source(project(":common").sourceSets.main.allSource)
+    options.release = java_version as Integer // TODO: REMOVE ME
 }
 
 tasks.withType(Javadoc).configureEach {
@@ -132,23 +143,23 @@ shadowJar {
     exclude 'META-INF/maven/**'*/
 }
 
-remapJar {
+jar {
     dependsOn(shadowJar)
-    inputFile.set(shadowJar.archiveFile)
+    archiveFile.set(shadowJar.archiveFile)
     archiveClassifier.set("universal")
 }
-
-tasks.register('remapMavenJar', RemapJarTask) {
-    dependsOn(jar)
-    inputFile.set(jar.archiveFile)
-    addNestedDependencies = false
-    /*targetNamespace.set("srg") // to srg names
-    remapAccessWidener.set(true)*/
-    archiveClassifier.set("maven")
-}
+//
+//tasks.register('remapMavenJar', RemapJarTask) {
+//    dependsOn(jar)
+//    inputFile.set(jar.archiveFile)
+//    addNestedDependencies = false
+//    /*targetNamespace.set("srg") // to srg names
+//    remapAccessWidener.set(true)*/
+//    archiveClassifier.set("maven")
+//}
 
 if (project.hasProperty("keystore")) {
-    remapJar.doLast {
+    jar.doLast {
         ant.signjar(
                 jar: remapJar.archiveFile.get(),
                 alias: project.getProperty("keystore_alias"),
@@ -161,73 +172,72 @@ if (project.hasProperty("keystore")) {
     }
 }
 
-processResources {
-    inputs.property 'version', mod_version
+//publishing {
+//    publications {
+//        mavenNeoForge(MavenPublication) {
+//            artifact(remapMavenJar.archiveFile) {
+//                builtBy build
+//            }
+//            artifact(sourcesJar.archiveFile) {
+//                builtBy build
+//                classifier 'sources'
+//            }
+//            artifactId = project.name
+//            groupId = project.group
+//            version = project.version
+//
+//            pom {
+//                artifactId = project.name
+//                groupId = project.group
+//                version = project.version
+//                name = rootProject.name
+//                packaging = 'pom'
+//                scm {
+//                    url = 'https://github.com/BloCamLimb/ModernUI-MC.git'
+//                }
+//                issueManagement {
+//                    system = 'github'
+//                    url = 'https://github.com/BloCamLimb/ModernUI/issues'
+//                }
+//                licenses {
+//                    license {
+//                        name = 'LGPL-3.0-or-later'
+//                        url = 'https://www.gnu.org/licenses/lgpl-3.0.en.html'
+//                        distribution = 'repo'
+//                    }
+//                }
+//                // do not provide any dependencies here, since this is a minecraft development
+//                /*withXml {
+//                    def dependenciesNode = asNode().appendNode('dependencies')
+//                    configurations.library.allDependencies.each {
+//                        def dependencyNode = dependenciesNode.appendNode('dependency')
+//                        dependencyNode.appendNode('groupId', it.group)
+//                        dependencyNode.appendNode('artifactId', it.name)
+//                        dependencyNode.appendNode('version', it.version)
+//                        dependencyNode.appendNode('scope', 'compile')
+//                    }
+//                }*/
+//            }
+//        }
+//    }
+//}
 
-    filesMatching("META-INF/neoforge.mods.toml") {
-        expand 'version': mod_version
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+// Implement mcgradleconventions loader attribute
+def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
+['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements'].each { variant ->
+    configurations.named("$variant") {
+        attributes {
+            attribute(loaderAttribute, 'neoforge')
+        }
     }
 }
-
-jar {
-    manifest {
-        attributes(
-                "Specification-Title"     : project.name,
-                "Specification-Vendor"    : "BloCamLimb",
-                "Specification-Version"   : "2",
-                "Implementation-Title"    : project.name,
-                "Implementation-Version"  : project.version,
-                "Implementation-Vendor"   : "BloCamLimb",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        )
-    }
-}
-
-publishing {
-    publications {
-        mavenNeoForge(MavenPublication) {
-            artifact(remapMavenJar.archiveFile) {
-                builtBy build
-            }
-            artifact(sourcesJar.archiveFile) {
-                builtBy build
-                classifier 'sources'
-            }
-            artifactId = project.name
-            groupId = project.group
-            version = project.version
-
-            pom {
-                artifactId = project.name
-                groupId = project.group
-                version = project.version
-                name = rootProject.name
-                packaging = 'pom'
-                scm {
-                    url = 'https://github.com/BloCamLimb/ModernUI-MC.git'
-                }
-                issueManagement {
-                    system = 'github'
-                    url = 'https://github.com/BloCamLimb/ModernUI/issues'
-                }
-                licenses {
-                    license {
-                        name = 'LGPL-3.0-or-later'
-                        url = 'https://www.gnu.org/licenses/lgpl-3.0.en.html'
-                        distribution = 'repo'
-                    }
-                }
-                // do not provide any dependencies here, since this is a minecraft development
-                /*withXml {
-                    def dependenciesNode = asNode().appendNode('dependencies')
-                    configurations.library.allDependencies.each {
-                        def dependencyNode = dependenciesNode.appendNode('dependency')
-                        dependencyNode.appendNode('groupId', it.group)
-                        dependencyNode.appendNode('artifactId', it.name)
-                        dependencyNode.appendNode('version', it.version)
-                        dependencyNode.appendNode('scope', 'compile')
-                    }
-                }*/
+sourceSets.configureEach {
+    [it.compileClasspathConfigurationName, it.runtimeClasspathConfigurationName, it.getTaskName(null, 'jarJar')].each { variant ->
+        configurations.named("$variant") {
+            attributes {
+                attribute(loaderAttribute, 'neoforge')
             }
         }
     }

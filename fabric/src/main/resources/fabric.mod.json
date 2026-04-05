@@ -1,21 +1,21 @@
 {
   "schemaVersion": 1,
-  "id": "modernui",
+  "id": "${mod_id}",
   "version": "${version}",
-  "name": "Modern UI",
-  "description": "    Modern desktop framework from low-level 3D graphics API to high-level view model, for development of 2D/3D rendering software or game engine, with internationalization support and many new technologies.\n    Modern UI is a desktop application framework designed for standalone 2D and 3D rendering software development. It makes use of modern 3D graphical APIs and technologies to provide high real-time rendering performance. For good measure, Modern UI improves and optimizes a set of features used by Android and its own set of internationalization supporting text layout engine meeting Unicode specification.\n    This version is an official version that extends to Minecraft and Fabric, which combines Modern UI with Minecraft and provides a large number of additional features and modding APIs.",
+  "name": "${mod_name}",
+  "description": "${description}",
   "authors": [
-    "BloCamLimb"
+    "${mod_author}"
   ],
   "contributors": [
     "The Android Open Source Project"
   ],
   "contact": {
-    "homepage": "https://curseforge.com/minecraft/mc-mods/modern-ui",
-    "issues": "https://github.com/BloCamLimb/ModernUI/issues",
-    "sources": "https://github.com/BloCamLimb/ModernUI-MC"
+    "homepage": "${mod_homepage}",
+    "issues": "${issues_url}",
+    "sources": "${mod_source}"
   },
-  "license": "LGPL-3.0-or-later",
+  "license": "${license}",
   "icon": "modernui_logo.png",
   "environment": "client",
   "entrypoints": {
@@ -33,13 +33,12 @@
     "mixins.modernui-fabric.json",
     "mixins.modernui-textmc.json"
   ],
-  "accessWidener" : "modernui.accesswidener",
   "depends": {
-    "fabricloader": ">=0.15.0",
-    "minecraft": ">=1.21.6 <1.21.9",
-    "java": ">=21",
-    "fabric-api": ">=0.90.7",
-    "forgeconfigapiport": ">=21.6.0"
+    "fabricloader": ">=${fabric_loader_version}",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=${java_version}",
+    "fabric-api": ">=${fabric_api_version}",
+    "forgeconfigapiport": ">=${forgeconfigapiport_version}"
   },
   "conflicts": {
     "blur": "*",
