@@ -32,6 +32,7 @@ import icyllis.modernui.graphics.MathUtil;
 import icyllis.modernui.graphics.text.GraphemeBreak;
 import icyllis.modernui.mc.mixin.MixinChatFormatting;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.util.Util;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -42,7 +43,6 @@ import net.minecraft.client.renderer.state.gui.pip.PictureInPictureRenderState;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -423,7 +423,7 @@ public abstract class MuiModApi {
     public abstract RenderType createRenderType(String name, int bufferSize,
                                                 boolean affectsCrumbling, boolean sortOnUpload,
                                                 RenderPipeline renderPipeline,
-                                                @Nullable RenderStateShard textureState,
+                                                @Nullable RenderSetup textureState,
                                                 boolean lightmap);
 
     /*
