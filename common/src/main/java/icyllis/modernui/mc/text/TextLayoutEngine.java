@@ -44,8 +44,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.*;
 import net.minecraft.util.profiling.Profiler;
 import net.minecraft.util.profiling.ProfilerFiller;
-import org.apache.logging.log4j.Marker;
-import org.apache.logging.log4j.MarkerManager;
+import org.slf4j.MarkerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -77,7 +76,7 @@ import static icyllis.modernui.mc.ModernUIMod.LOGGER;
 public class TextLayoutEngine extends FontResourceManager
         implements MuiModApi.OnWindowResizeListener, MuiModApi.OnDebugDumpListener {
 
-    public static final Marker MARKER = MarkerManager.getMarker("TextLayout");
+    public static final Marker MARKER = MarkerFactory.getMarker("TextLayout");
 
     /**
      * Config values
