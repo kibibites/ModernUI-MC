@@ -42,13 +42,6 @@ repositories {
             includeGroup 'fuzs.forgeconfigapiport'
         }
     }
-    maven {
-        url 'https://maven.izzel.io/releases/'
-    }
-    mavenCentral()
-    flatDir {
-        dir "${rootProject.projectDir}/libs"
-    }
 }
 
 dependencies {
@@ -59,8 +52,6 @@ dependencies {
 
     implementation "com.terraformersmc:modmenu:${modmenu_version}"
     api "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${forgeconfigapiport_version}"
-
-//    implementation project(':common')
 
     if (rootProject.file('../ModernUI').exists()) {
         implementation("icyllis.arc3d:Arc3D")
@@ -102,23 +93,6 @@ dependencies {
     include "org.commonmark:commonmark:${commonmark_version}"
 
     shadow ':ModernUI-Fonts-5.0'
-}
-
-tasks.withType(JavaCompile).configureEach {
-    source(project(":common").sourceSets.main.allSource)
-    options.release = java_version as Integer // TODO: REMOVE ME
-}
-
-tasks.withType(Javadoc).configureEach {
-    source(project(":common").sourceSets.main.allJava)
-}
-
-sourcesJar {
-    from project(":common").sourceSets.main.allSource
-}
-
-tasks.withType(ProcessResources).configureEach {
-    from project(":common").sourceSets.main.resources
 }
 
 //shadowJar {
