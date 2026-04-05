@@ -40,33 +40,33 @@ import static icyllis.modernui.mc.ModernUIMod.LOGGER;
 @Mixin(LevelRenderer.class)
 public class MixinLevelRendererDBG {
 
-    @Inject(method = "renderLevel", at = @At(value = "CONSTANT", args = "stringValue=blockentities", ordinal = 0))
-    private void afterEntities(DeltaTracker deltaTracker, boolean renderBlockOutline,
-                               Camera camera, GameRenderer gameRenderer, LightTexture lightTexture,
-                               Matrix4f modelView, Matrix4f projection, CallbackInfo ci) {
-        if (Screen.hasAltDown() &&
-                InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_KP_7)) {
-            LOGGER.info("Capture from MixinLevelRendererDBG.afterEntities()");
-            LOGGER.info("Param ModelViewMatrix: {}", modelView);
-            LOGGER.info("Param Camera.getPosition(): {}, pitch: {}, yaw: {}, rot: {}, detached: {}",
-                    camera.getPosition(), camera.getXRot(), camera.getYRot(), camera.rotation(), camera.isDetached());
-            LOGGER.info("Param ProjectionMatrix: {}", projection);
-            LOGGER.info("RenderSystem.getModelViewStack(): {}",
-                    RenderSystem.getModelViewStack());
-            LOGGER.info("RenderSystem.getModelViewMatrix(): {}", RenderSystem.getModelViewMatrix());
-            LOGGER.info("GameRenderer.getMainCamera().getPosition(): {}, pitch: {}, yaw: {}, rot: {}, detached: {}",
-                    Minecraft.getInstance().gameRenderer.getMainCamera().getPosition(),
-                    camera.getXRot(), camera.getYRot(), camera.rotation(), camera.isDetached());
-            LocalPlayer player = Minecraft.getInstance().player;
-            if (player != null) {
-                LOGGER.info("LocalPlayer: yaw: {}, yawHead: {}, eyePos: {}",
-                        player.getYRot(), player.getYHeadRot(),
-                        player.getEyePosition(deltaTracker.getGameTimeDeltaPartialTick(false)));
-            }
-            Entity cameraEntity = Minecraft.getInstance().cameraEntity;
-            if (cameraEntity != null) {
-                LOGGER.info("CameraEntity position: {}", cameraEntity.position());
-            }
-        }
-    }
+//    @Inject(method = "renderLevel", at = @At(value = "CONSTANT", args = "stringValue=blockentities", ordinal = 0))
+//    private void afterEntities(DeltaTracker deltaTracker, boolean renderBlockOutline,
+//                               Camera camera, GameRenderer gameRenderer, LightTexture lightTexture,
+//                               Matrix4f modelView, Matrix4f projection, CallbackInfo ci) {
+//        if (Screen.hasAltDown() &&
+//                InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_KP_7)) {
+//            LOGGER.info("Capture from MixinLevelRendererDBG.afterEntities()");
+//            LOGGER.info("Param ModelViewMatrix: {}", modelView);
+//            LOGGER.info("Param Camera.getPosition(): {}, pitch: {}, yaw: {}, rot: {}, detached: {}",
+//                    camera.getPosition(), camera.getXRot(), camera.getYRot(), camera.rotation(), camera.isDetached());
+//            LOGGER.info("Param ProjectionMatrix: {}", projection);
+//            LOGGER.info("RenderSystem.getModelViewStack(): {}",
+//                    RenderSystem.getModelViewStack());
+//            LOGGER.info("RenderSystem.getModelViewMatrix(): {}", RenderSystem.getModelViewMatrix());
+//            LOGGER.info("GameRenderer.getMainCamera().getPosition(): {}, pitch: {}, yaw: {}, rot: {}, detached: {}",
+//                    Minecraft.getInstance().gameRenderer.getMainCamera().getPosition(),
+//                    camera.getXRot(), camera.getYRot(), camera.rotation(), camera.isDetached());
+//            LocalPlayer player = Minecraft.getInstance().player;
+//            if (player != null) {
+//                LOGGER.info("LocalPlayer: yaw: {}, yawHead: {}, eyePos: {}",
+//                        player.getYRot(), player.getYHeadRot(),
+//                        player.getEyePosition(deltaTracker.getGameTimeDeltaPartialTick(false)));
+//            }
+//            Entity cameraEntity = Minecraft.getInstance().cameraEntity;
+//            if (cameraEntity != null) {
+//                LOGGER.info("CameraEntity position: {}", cameraEntity.position());
+//            }
+//        }
+//    }
 }
