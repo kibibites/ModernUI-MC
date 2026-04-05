@@ -77,11 +77,11 @@ final class SimpleScreen extends Screen implements MuiScreen {
     }
 
     @Override
-    public void renderBackground(@Nonnull GuiGraphicsExtractor gr, int mouseX, int mouseY, float deltaTick) {
+    public void extractBackground(@Nonnull GuiGraphicsExtractor gr, int mouseX, int mouseY, float deltaTick) {
         ScreenCallback callback = getCallback();
         if (callback == null || callback.hasDefaultBackground()) {
             if (minecraft != null && minecraft.level == null) {
-                super.renderBackground(gr, mouseX, mouseY, deltaTick);
+                super.extractBackground(gr, mouseX, mouseY, deltaTick);
             } else {
                 BlurHandler.INSTANCE.drawScreenBackground(gr, 0, 0, this.width, this.height);
             }
