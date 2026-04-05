@@ -41,21 +41,7 @@ configurations {
     shadow
 }
 
-repositories {
-    maven {
-        url 'https://maven.izzel.io/releases/'
-    }
-    flatDir {
-        dir "${rootProject.projectDir}/libs"
-    }
-}
-
 dependencies {
-//    implementation(project(":common")) {
-//        attributes {
-//            attribute(Attribute.of("io.github.mcgradleconventions.loader", String), "common")
-//        }
-//    }
     if (rootProject.file('../ModernUI').exists()) {
         implementation(forgeRuntimeLibrary("icyllis.arc3d:Arc3D"))
         shadow("icyllis.arc3d:Arc3D") {
@@ -100,23 +86,6 @@ dependencies {
     shadow ':ModernUI-Fonts-5.0'
 }
 
-tasks.withType(JavaCompile).configureEach {
-    source(project(":common").sourceSets.main.allSource)
-    options.release = java_version as Integer // TODO: REMOVE ME
-}
-
-tasks.withType(Javadoc).configureEach {
-    source(project(":common").sourceSets.main.allJava)
-}
-
-sourcesJar {
-    from project(":common").sourceSets.main.allSource
-}
-
-tasks.withType(ProcessResources).configureEach {
-    from project(":common").sourceSets.main.resources
-}
-
 shadowJar {
     archiveClassifier.set("shadow")
     configurations = [project.configurations.shadow]
@@ -148,6 +117,7 @@ jar {
     archiveFile.set(shadowJar.archiveFile)
     archiveClassifier.set("universal")
 }
+
 //
 //tasks.register('remapMavenJar', RemapJarTask) {
 //    dependsOn(jar)

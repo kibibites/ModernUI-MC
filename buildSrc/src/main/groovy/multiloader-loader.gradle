@@ -18,6 +18,7 @@ dependencies {
             attribute(loaderAttribute, 'common')
         }
     }
+
     commonJava project(path: ':common', configuration: 'commonJava')
     commonResources project(path: ':common', configuration: 'commonResources')
 }
@@ -25,6 +26,9 @@ dependencies {
 tasks.named('compileJava', JavaCompile) {
     dependsOn(configurations.commonJava)
     source(configurations.commonJava)
+
+    // TODO: REMOVE THIS; i think this is a workaround, as it is not needed in a standard multiloader setup
+    options.release = java_version as Integer
 }
 
 processResources {
